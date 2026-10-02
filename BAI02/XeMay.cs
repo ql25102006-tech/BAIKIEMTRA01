@@ -1,0 +1,50 @@
+using System;
+
+namespace AutoSpeedLogistics
+{
+    // C. Class XeMay kế thừa từ PhuongTien
+    public class XeMay : PhuongTien
+    {
+        private int _dungTichXylanh;
+
+        public int DungTichXylanh
+        {
+            get => _dungTichXylanh;
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Dung tích xy-lanh phải lớn hơn 0!", nameof(value));
+                }
+                _dungTichXylanh = value;
+            }
+        }
+
+        public XeMay(string maPT, string tenHang, int namSanXuat, decimal giaGoc, int dungTichXylanh)
+            : base(maPT, tenHang, namSanXuat, giaGoc)
+        {
+            DungTichXylanh = dungTichXylanh;
+        }
+
+        // Override TinhGiaLanBanh()
+        public override decimal TinhGiaLanBanh()
+        {
+            if (DungTichXylanh < 175)
+            {
+                // Thuế trước bạ 2%
+                return GiaGoc + (GiaGoc * 0.02m);
+            }
+            else
+            {
+                // Thuế trước bạ 5%
+                return GiaGoc + (GiaGoc * 0.05m);
+            }
+        }
+
+        // Override GetInfo()
+        public override string GetInfo()
+        {
+            return $"[Xe máy] {base.GetInfo()} - Dung tích xy-lanh: {DungTichXylanh} cc";
+        }
+    }
+}
